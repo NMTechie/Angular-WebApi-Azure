@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html ng-app="HotelExp">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+<script type="text/javascript" src="AngularModules\Hotel.Module.js"></script>
+</head>
+<body>
+<div  ng-controller="HotelMaincontroller as Main">
+<ul ng-repeat="hotel in Main.modelHotels.hotelList | orderBy:'code' | limitTo:Main.limitTheList:0 ">
+	<li>{{hotel.name}}</li>
+</ul>
+<input type="text" name="limitList" ng-model="Main.limitTheList">
+<select ng-options="hotel.name for hotel in Main.modelHotels.hotelList track by hotel.code" ng-model="selectedItem">
+	
+</select>
+<input type="text" name="txtShowSelectedItem" ng-model="selectedItem.code"/>
+</div>
+
+<hr/>
+
+<div  ng-controller="StudentMainController as SC">
+	<ul ng-repeat="student in SC.modelStudents | filter : selectedItem">
+		<li>{{student.name}}</li>
+	</ul>
+	<button ng-click="SC.handleClick()">click Me!!</button>
+	<select ng-options="student.name for student in SC.modelStudents track by student.roll" ng-model="selectedItem">
+		
+	</select>
+	<table>
+		<tr ng-repeat="hotel in SC.myHotels.hotels">
+			<td>{{hotel.HotelName}}</td>
+			<td>{{hotel.HotelCode}}</td>
+		</tr>
+	</table>
+</div>
+<hr/>
+
+</body>
+</html>

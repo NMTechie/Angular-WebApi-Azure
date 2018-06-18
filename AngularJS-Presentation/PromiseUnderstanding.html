@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="PromiseApp">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+<script type="text/javascript" src="AngularModules\Promise.Module.js"></script>
+</head>
+<body>
+	<div ng-controller="PromiseAppController as cntlr">
+		{{cntlr.localvar}}
+		<input type="text" ng-model="cntlr.localvar"/>
+		<label>
+			{{cntlr.returnFromService}}{{cntlr.returnFromCrudService}}{{cntlr.CrudServiceRef.returnData}}
+		</label>
+		<hr/>
+		<label>
+			{{cntlr.dataFromPromiseServiceReturnVar1}}
+		</label>
+		<hr/>
+		<label>
+			{{cntlr.CustomPromisevalue}}
+		</label>
+	</div>
+</body>
+</html>

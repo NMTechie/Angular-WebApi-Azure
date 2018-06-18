@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html ng-app="ServiceExp">
+<head>
+    <meta charset="utf-8" />
+    <title>FactoryNService</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+    <script src="AngularModules/ServiceExp.module.js"></script>
+    <script src="AngularControllers/ServiceExp.controller.js"></script>
+</head>
+<body>
+    <div ng-controller="MainController as main">
+        <p>{{main.model.user.name}}</p>
+        <p>{{main.user.name}}</p>
+        <input type="text"ng-model="main.model.user.name"/>
+
+        <div ng-controller="FirstController as first">
+            <p>{{first.model.user}}</p>
+            <p>{{first.user.name}}</p>
+            <p>{{first.dummyObject}}</p>
+            <input type="text" ng-model="main.model.user.name" />
+        </div>
+
+        <div ng-controller="SecondController as sec">
+            <p>{{sec.model.user.name}}</p>
+            <p>{{sec.user}}</p>
+            <input type="text" ng-model="main.model.user.name" />
+        </div>
+    </div>
+</body>
+</html>

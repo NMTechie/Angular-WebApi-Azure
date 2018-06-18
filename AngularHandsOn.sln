@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularJS-Presentation", "AngularJS-Presentation\AngularJS-Presentation.csproj", "{35EAC955-DAB2-4E48-A760-DED64E725366}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAPI", "ServerAPI\ServerAPI.csproj", "{3737E7EF-5ADE-41A8-AC34-A015ADB0B636}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35EAC955-DAB2-4E48-A760-DED64E725366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35EAC955-DAB2-4E48-A760-DED64E725366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35EAC955-DAB2-4E48-A760-DED64E725366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35EAC955-DAB2-4E48-A760-DED64E725366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3737E7EF-5ADE-41A8-AC34-A015ADB0B636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3737E7EF-5ADE-41A8-AC34-A015ADB0B636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3737E7EF-5ADE-41A8-AC34-A015ADB0B636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3737E7EF-5ADE-41A8-AC34-A015ADB0B636}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5384C65-B70D-4B2D-AEE9-0A316E55FE55}
+	EndGlobalSection
+EndGlobal

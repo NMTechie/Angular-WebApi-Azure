@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>START PAGE</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+    <script src="AngularModules/NileshMainApp.module.js"></script>
+    <script src="AngularModules/NileshSecApp.module.js"></script>
+    <script src="AngularControllers/NileshMainApp.Testcontroller.js"></script>
+    <script src="AngularControllers/NileshSecApp.Testcontroller.js"></script>
+    <script src="AngularControllers/NileshMainApp.BindingAndValidation.js"></script>
+    <script src="AngularControllers/NileshSecApp.inputNoutputFilter.js"></script>
+    <script src="Filters/NileshSecApp.Myfilters.js"></script>
+</head>
+<body>
+    <header>
+        <div style="height:100px; background:lightsalmon">
+            This is the header section
+        </div>
+    </header>
+    <div id="Maindiv" style="background:lightblue" ng-controller="Testcontroller">
+        This is the view section
+        {{name}}
+        <div>
+            </br>
+            </br>
+            <label>example of ng-model and ng-bind</label></br>
+            <input type="text" ng-model="setColor" />
+            <label type="text" readonly="true" style="color:white; background:{{setColor}}" ng-bind="setColor" />
+        </div>
+        <div ng-controller="BindingAndValidation as BndgNVal">
+            <ul ng-repeat="user in BndgNVal.users | orderBy:['roll','isActive']">
+                <li>{{user.name}}</li>
+                <li>{{user.standard}}</li>
+                <li>{{user.roll}}</li>
+                <li>{{user.isActive}}</li>
+            </ul>
+            <p>DropDown</p>
+            <select ng-model="theModelForDropDown" ng-init="theModelForDropDown=BndgNVal.chooseFromOption[0]" ng-options="item for item in BndgNVal.chooseFromOption"></select>
+        </div>
+    </div>
+    <div id="NextDiv" ng-controller="Testcontroller as TStCntrl" style="background:lightgreen">
+        This is the view section
+        {{TStCntrl.name}} 
+        <div>
+            </br>
+            </br>
+            <label>example of ng-model and ng-bind</label></br>
+            <input type="text" ng-model="TStCntrl.valueToFormat" />
+            <label>{{TStCntrl.valueToFormat | stringFilter:false}}</label>
+        </div>
+        <hr />
+        <label>Output Filter example 1</label>
+        <div ng-controller="inputNoutputFilter as IntOutFil">
+            <input ng-model="IntOutFil.selItem.iso"/>
+            <ul ng-repeat="country in IntOutFil.contries | filter:IntOutFil.selItem">
+                {{country.name}} ({{country.iso}})
+            </ul>
+            <hr />
+            <label>Output Filter example 2</label>
+            <input ng-model="IntOutFil.selectedCountry.iso" ng-init="selectedCountry.iso=IntOutFil.contries[0].iso"/>
+            <ul ng-repeat="country in IntOutFil.contries | filter:IntOutFil.selectedCountry">
+                {{country.name}} ({{country.iso}})
+            </ul>
+            <hr />
+            <label>Output Filter example 3 - has problem with complex object filter</label>
+            <input ng-model="Selcon1" />
+            <ul ng-repeat="country in IntOutFil.contries | filter:Selcon1">
+                {{country.name}} ({{country.iso}})
+            </ul>
+        </div>
+    </div>
+    <footer style="height:100px;background:lightcoral">
+        This is the footer section
+    </footer>
+    <script src="Bootstrap/customBootstrap.js"></script>
+</body>
+
+</html>

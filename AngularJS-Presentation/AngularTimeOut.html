@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html ng-app="TimeOutExp">
+<head>
+    <meta charset="utf-8" />
+    <title>Angular Time Out Exp</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+    <script src="AngularControllers/TimeOutExp.controller.js"></script>
+</head>
+<body>
+    <div ng-controller="TimeOutExpcontroller as main">
+        <input type="button" ng-click="main.startTimeout()" value="Start Time Out"/>
+        <input type="button" ng-click="main.cancelTimeout()">Cancel Time Out</input>
+        <input type="text" ng-model="main.timeOut" />
+        <label>{{main.message}}</label>
+    </div>
+</body>
+</html>
