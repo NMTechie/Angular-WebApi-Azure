@@ -8,3 +8,5 @@ git commit -m "Angular HandOn Check in"
 Create a local copy from remote repo
 **********************************************************************************************************************
 C:\Windows\system32>git clone https://github.com/NMTechie/Angular-WebApi-Azure.git "C:\Nilesh\PoC\AzureWithAngular"
+cd C:\Nilesh\PoC\AzureWithAngular
+Then check the status git status
