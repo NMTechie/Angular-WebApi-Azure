@@ -57,7 +57,7 @@ namespace ServerAPI
 
         public static List<Hotel> InsertHotel(Hotel item)
         {            
-            if (hotelList != null && hotelList.Count > 0)
+            if (hotelList != null)
             {
                 hotelList.Add(item);
                 
@@ -72,6 +72,7 @@ namespace ServerAPI
         public string HotelCode { get; set; }
         public string HotelLocation { get; set; }
         public float HotelPrice { get; set; }
+        public bool IsHotelActive { get; set; }
 
     }
 }

@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>My Angular Hands On</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="AngularModules/MyExamHansOnDirtyModule.js"></script>
+    
+</head>
+<body ng-app="MymainApp" ng-controller="MyMainCntlr">
+    <div>
+        <input type="Text" placeholder="Search" />
+        <input type="button" value="Add Hotel" ng-click="ShowForm()"/>
+    </div>
+    <hr />
+    <div>
+        <div class="row">
+            <div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr class="info">
+                            <th ng-click="sortBy('name')" style="cursor:pointer">
+                                Hotel Name
+                            </th>
+                            <th>
+                                Option
+                            </th>
+                            <th>
+                                HotelCode
+                            </th>
+                            <th>
+                                HotelLocation
+                            </th>
+                            <th>
+                                HotelPrice
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- Filter the Rows of the table based on the search text -->
+
+                        <tr ng-repeat="item in hotels">
+                            <td>
+                                {{item.HotelName}}
+                            </td>
+                            <td>
+                                <a class="btn cust-opt-btn btn-info" ng-click="resetForm();editCountry(item)" data-toggle="modal" data-target="#countryModal"
+                                   data-backdrop="static" data-keyboard="false">
+                                    <i class="fa fa-pencil-square-o"></i>&nbsp;edit
+                                </a>&nbsp;
+                                <a class="btn cust-opt-btn btn-success" ng-if="!item.IsHotelActive" ng-click="activate(item._id)">
+                                    <i class="fa fa-thumbs-o-up"></i>&nbsp;enable
+                                </a>
+                                <a class="btn cust-opt-btn btn-danger" ng-if="item.IsHotelActive" ng-click="deactivate(item._id)">
+                                    <i class="fa fa-thumbs-o-down"></i>&nbsp;disable
+                                </a>
+                            </td>
+                            <td>
+                                {{item.HotelCode}}
+                            </td>
+                            <td>
+                                {{item.HotelLocation}}
+                            </td>
+                            <td>
+                                {{item.HotelPrice}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div ng-show="isShow">
+        <form ng-submit="saveHotel()">
+            <label>Name of the Hotel</label>
+            <input type="Text" placeholder="Hotel Name" ng-model="hotelName"/>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+</body>
+</html>

@@ -84,6 +84,7 @@
     <Content Include="AngularControllers\NileshSecApp.Testcontroller.js" />
     <Content Include="AngularControllers\NileshMainApp.Testcontroller.js" />
     <Content Include="AngularModules\Hotel.Module.js" />
+    <Content Include="AngularModules\MyExamHansOnDirtyModule.js" />
     <Content Include="AngularModules\NileshSecApp.module.js" />
     <Content Include="AngularModules\NileshMainApp.module.js" />
     <Content Include="AngularModules\Promise.Module.js" />
@@ -92,9 +93,11 @@
     <Content Include="Bootstrap\customBootstrap.js" />
     <Content Include="FactoryNService.html" />
     <Content Include="Filters\NileshSecApp.Myfilters.js" />
+    <Content Include="MyExamHansOnDirty.html" />
     <Content Include="PromiseUnderstanding.html" />
     <Content Include="StartPage.html" />
     <Content Include="ExamhandsOn.html" />
+    <Content Include="AngularModules\ui-bootstrap-2.5.0.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
