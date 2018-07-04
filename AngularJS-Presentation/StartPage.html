@@ -58,7 +58,7 @@
             </ul>
             <hr />
             <label>Output Filter example 2</label>
-            <input ng-model="IntOutFil.selectedCountry.iso" ng-init="selectedCountry.iso=IntOutFil.contries[0].iso"/>
+            <input ng-model="IntOutFil.selectedCountry.iso" ng-init="IntOutFil.selectedCountry.iso=IntOutFil.contries[0].iso"/>
             <ul ng-repeat="country in IntOutFil.contries | filter:IntOutFil.selectedCountry">
                 {{country.name}} ({{country.iso}})
             </ul>

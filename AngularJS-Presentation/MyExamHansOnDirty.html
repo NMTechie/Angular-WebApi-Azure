@@ -11,7 +11,7 @@
 </head>
 <body ng-app="MymainApp" ng-controller="MyMainCntlr">
     <div>
-        <input type="Text" placeholder="Search" />
+        <input type="Text" placeholder="Search" ng-model="SearchedHotel.HotelName"/>
         <input type="button" value="Add Hotel" ng-click="ShowForm()"/>
     </div>
     <hr />
@@ -42,7 +42,7 @@
 
                         <!-- Filter the Rows of the table based on the search text -->
 
-                        <tr ng-repeat="item in hotels">
+                        <tr ng-repeat="item in hotels | filter:SearchedHotel">
                             <td>
                                 {{item.HotelName}}
                             </td>
