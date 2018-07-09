@@ -8,7 +8,9 @@
             return $http.get(url);
         };
         returnObj.post = function (url, data) {
-            return $http.post(url, data);
+            return $http.post(url, data).then(function (response) { return response; },
+                function (errorResponse) { return errorResponse; }
+            );
         };
         returnObj.put = function (url, data) {
             return $http.put(url, data);
