@@ -15,10 +15,12 @@
         };
         return returnObj;
     }]);
+    angular.module('MymainApp').constant('URL','https://localhost:61278/api/Values/');
 
-    angular.module('MymainApp').controller('MyMainCntlr', ['$scope', 'crudService', function ($scope, crudService) {
+    angular.module('MymainApp').controller('MyMainCntlr', ['$scope', 'crudService','URL', function ($scope, crudService,URL) {
 
         $scope.hotelName = "";
+        $scope.hasError = 'hasError';
         $scope.isShow = false;
         $scope.ShowForm = function () {
             if (!$scope.isShow)
@@ -40,10 +42,18 @@
                 HotelPrice:'12.10',
                 IsHotelActive: 'true'
             };
-            var url = 'http://localhost:61278/api/Values/Insert';
-            crudService.post(url, data).then(
+
+            var url = '';
+            if ($scope.Env.toUpperCase() == 'DEV') {
+                url = URL;
+            } else {
+                url = 'https://nileshappservice.azurewebsites.net/api/Values/';
+            }
+            
+            crudService.post(url+'Insert', data).then(
                 function (response) {
                     $scope.hotels = response.data;
+                    $scope.SelectedHotel = $scope.hotels[0];
                 }, function(error){
                     $scope.hotels = '';
                 });

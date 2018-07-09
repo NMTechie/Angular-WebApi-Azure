@@ -10,3 +10,7 @@ Create a local copy from remote repo
 C:\Windows\system32>git clone https://github.com/NMTechie/Angular-WebApi-Azure.git "C:\Nilesh\PoC\AzureWithAngular"
 cd C:\Nilesh\PoC\AzureWithAngular
 Then check the status git status
+
+Angular ng-options well explained
+*************************************************************************************************************************
+https://www.undefinednull.com/2014/08/11/a-brief-walk-through-of-the-ng-options-in-angularjs/

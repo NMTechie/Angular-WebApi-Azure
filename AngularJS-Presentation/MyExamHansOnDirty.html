@@ -7,12 +7,16 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="AngularModules/MyExamHansOnDirtyModule.js"></script>
+    <link href="Styles/ExamStyleSheet.css" rel="stylesheet" />
     
 </head>
 <body ng-app="MymainApp" ng-controller="MyMainCntlr">
     <div>
+        <input type="Text" placeholder="Environment" ng-model="Env" ng-init="Env='DEV'"/>
         <input type="Text" placeholder="Search" ng-model="SearchedHotel.HotelName"/>
         <input type="button" value="Add Hotel" ng-click="ShowForm()"/>
+        <hr/>
+        <select ng-show="isShow" ng-model="SelectedHotel" ng-options="hotel.HotelName for hotel in hotels"></select>
     </div>
     <hr />
     <div>
@@ -75,10 +79,11 @@
     </div>
     <hr />
     <div ng-show="isShow">
-        <form ng-submit="saveHotel()">
+        <form ng-submit="saveHotel()" name="HotelForm">
             <label>Name of the Hotel</label>
-            <input type="Text" placeholder="Hotel Name" ng-model="hotelName"/>
-            <input type="submit" value="Submit" />
+            <input type="Text" placeholder="Hotel Name" ng-model="hotelName" name="hotelname" required/>            
+            <span ng-class="hasError" ng-show="HotelForm.hotelname.$invalid && HotelForm.hotelname.$dirty">The Hotel name is required</span>
+            <input type="submit" value="Submit" ng-disabled="HotelForm.hotelname.$invalid"/>
         </form>
     </div>
 </body>
