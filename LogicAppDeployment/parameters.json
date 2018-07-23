@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "SubmitSpeech"
+    },
+    "logicAppLocation": {
+      "value": "westeurope"
+    },
+    //"azureeventgridtoken:clientId": {
+    //  "value": null
+    //},
+    //"azureeventgridtoken:clientSecret": {
+    //  "value": null
+    //},
+    "azureeventgridtoken:TenantId": {
+      "value": "2f73e501-3af3-4b71-a8ac-04ea8198a9dc"
+    },
+    //"azureeventgridtoken:resourceUri": {
+    //  "value": null
+    //},
+    "azureeventgridtoken:grantType": {
+      "value": "code"
+    },
+    "azureeventgrid": {
+      "value": "azureeventgrid"
+    }
+  }
+}
