@@ -35,12 +35,14 @@ namespace WebJobExp
             CloudStorageAccount storageAccount = Helper.GetStorageAccount();
             StorageQueueHandler workObject = new StorageQueueHandler(storageAccount);
             //
-            Task voidTask = workObject.WriteToQueueAsync("Hello, World");
+            Task voidTask = workObject.WriteToQueueAsync(string.Format("Hello, World write Message to Queue at {0} on dated {1}", DateTime.Now.ToString("hh:mm:sss"),DateTime.Now.ToString("dd-MMM-yyyy")));
             Console.WriteLine("Async WriteToQueueAsync Called at {0}",DateTime.Now.ToString("hh:mm:sss"));
             Console.WriteLine("The Task status is {0}", voidTask.Status);
             await voidTask;
             //
+            /*Un Comment this when running in locally to test the inserted message
             Console.WriteLine(workObject.PeekFromQueue());
+            */
             return;
         }
     }
