@@ -14,3 +14,29 @@ Then check the status git status
 Angular ng-options well explained
 *************************************************************************************************************************
 https://www.undefinednull.com/2014/08/11/a-brief-walk-through-of-the-ng-options-in-angularjs/
+
+
+Azure Storage Options
+*************************************************************************************************************************
+Azure Storage includes 
+1.Azure Blobs (objects) {Hot, cool, and archive storage tiers - available only in General Purpose v2 storage account type}
+2.Azure Data Lake Storage Gen2
+3.Azure Files
+4.Azure Queues (please look the diff with Azure Service Bus queues at https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-azure-and-service-bus-queues-compared-contrasted)
+5.Azure Tables
+6.Azure Disks
+
+How to change the domain name mapping of Azure Storage PaaS URL?
+Ans:https://docs.microsoft.com/en-us/azure/storage/blobs/storage-custom-domain-name 
+
+Storage Account Type: (Instead of, could use Azure storage emulator for development)
+*Total capacity of storage account is 500 TB
+------------------------------------------------------------------------------------
+1. General Purpose v2
+2. General Purpose v1
+3. Blob Storage
+
+Azure Storage Queue
+------------------------------------------------------------------------------------
+https://docs.microsoft.com/en-in/azure/storage/queues/storage-dotnet-how-to-use-queues
+The TLS support handshake follow (https://stackoverflow.com/questions/26742054/the-client-and-server-cannot-communicate-because-they-do-not-possess-a-common-a)
