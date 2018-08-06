@@ -18,15 +18,24 @@ namespace WebJobExp
                 //Enabling the TLS 1.2 support as target framework is 4.5.1
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                 Task task = EntryPointAsync();
+                /* Inserting this blocking call to ensure that main process should not exit 
+                before completion of the task otherwise it will not work in WebJob scenario 
+                as the invkoing process will be finished before task completion notification
+                */
+                task.Wait();
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
             finally
             {
-                Console.ReadLine();
-            }
-        }
+                Console.WriteLine("Successfully Called at the finally block after peek");
+               //Un Comment this when running in locally to test the inserted message
+               //Console.ReadLine();
+               
+           }
+       }
 
         static async Task EntryPointAsync()
         {
@@ -35,14 +44,13 @@ namespace WebJobExp
             CloudStorageAccount storageAccount = Helper.GetStorageAccount();
             StorageQueueHandler workObject = new StorageQueueHandler(storageAccount);
             //
-            Task voidTask = workObject.WriteToQueueAsync(string.Format("Hello, World write Message to Queue at {0} on dated {1}", DateTime.Now.ToString("hh:mm:sss"),DateTime.Now.ToString("dd-MMM-yyyy")));
-            Console.WriteLine("Async WriteToQueueAsync Called at {0}",DateTime.Now.ToString("hh:mm:sss"));
+            Task voidTask = workObject.WriteToQueueAsync(string.Format("Hello, World write Message to Queue at {0} on dated {1}", DateTime.Now.ToString("hh:mm:sss"), DateTime.Now.ToString("dd-MMM-yyyy")));
+            Console.WriteLine("Async WriteToQueueAsync Called at {0}", DateTime.Now.ToString("hh:mm:sss"));
             Console.WriteLine("The Task status is {0}", voidTask.Status);
             await voidTask;
             //
-            /*Un Comment this when running in locally to test the inserted message
-            Console.WriteLine(workObject.PeekFromQueue());
-            */
+            //Un Comment this when running in locally to test the inserted message
+            Console.WriteLine(workObject.PeekFromQueue());            
             return;
         }
     }

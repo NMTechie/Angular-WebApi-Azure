@@ -2,7 +2,9 @@ https://www.atlassian.com/git/tutorials/saving-changes
 
 First create a .gitignore file
 Git add <<path>>\*.*
-git commit -m "Angular HandOn Check in"
+git commit -m 'my notes' path/to/my/file.ext 
+OR
+git commit -am 'my notes' 
 
 
 Create a local copy from remote repo
