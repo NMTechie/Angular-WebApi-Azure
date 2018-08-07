@@ -31,6 +31,10 @@ namespace WebJobExp
         /* For async performance please visit https://stackify.com/csharp-async-await-task-performance/*/
         /*If you use a Task return type for an async method, a calling method can use an 
         * await operator to suspend the caller's completion until the called async method has finished.*/
+
+        /*Webjob with Webhooks is good example @ https://blog.kloud.com.au/2016/04/26/webhook-your-webjob-with-visual-studio-team-services-integration-example/*/
+
+        /*The Azure Webjob publishing explained from VS @ https://developingdane.com/scheduled-azure-web-jobs/*/
         public async Task WriteToQueueAsync(string inputMessage)
         {
             CloudQueueMessage message = new CloudQueueMessage(inputMessage);

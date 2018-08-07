@@ -64,6 +64,9 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\NileshAppService-DevDepSlot - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
+    <None Include="settings.job">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
