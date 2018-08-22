@@ -42,3 +42,11 @@ Azure Storage Queue
 ------------------------------------------------------------------------------------
 https://docs.microsoft.com/en-in/azure/storage/queues/storage-dotnet-how-to-use-queues
 The TLS support handshake follow (https://stackoverflow.com/questions/26742054/the-client-and-server-cannot-communicate-because-they-do-not-possess-a-common-a)
+
+
+Azure Load balancing option 
+*************************************************************************************************************************
+1. Traffic Manager
+2. Application Gateway
+3. Load Balancer
+https://docs.microsoft.com/en-us/azure/traffic-manager/traffic-manager-overview
