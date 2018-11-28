@@ -1,0 +1,323 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "metadata": {
+        "description": "Name of the Logic App."
+      }
+    },
+    "logicAppState": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "metadata": {
+        "description": "State of the Logic App"
+      }
+    },
+    "logicAppLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "allowedValues": [
+        "[resourceGroup().location]",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2"
+      ],
+      "metadata": {
+        "description": "Location of the Logic App."
+      }
+    },
+    "hra_azuretables_Connection_Name": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "hra_azuretables_Connection_Name_DisplayName": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "rsgname": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "oms-Workspace-Name": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "sharedrsgname": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "childLAName": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "azuretables_1_storageaccount": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of your storage account"
+      },
+      "defaultValue": ""
+    }    
+  },
+  "variables": {},
+  "resources": [
+    {
+      "name": "[parameters('logicAppName')]",
+      "type": "Microsoft.Logic/workflows",
+      "location": "[parameters('logicAppLocation')]",
+      "tags": {
+        "displayName": "LogicApp"
+      },
+      "apiVersion": "2016-06-01",
+      "properties": {
+        "state": "[parameters('logicAppState')]",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "actions": {
+            "RequisitionSchedularVariables": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "listOfValues",
+                    "type": "Array",
+                    "value": [
+                      "@formatDateTime(utcNow(),'yyyy-MM-dd')",
+                      "submitLargeDocument",
+                      "@formatDateTime(utcNow(),'yyyyMMddhhmmss')",
+                      "Requisition"
+                    ]
+                  }
+                ]
+              },
+              "runAfter": {}
+            },
+            "GetRequisitionQuery": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                  }
+                },
+                "method": "get",
+                "path": "/Tables/@{encodeURIComponent('TaleoServiceMetaData')}/entities(PartitionKey='@{encodeURIComponent(variables('listOfValues')?[1])}',RowKey='@{encodeURIComponent(variables('listOfValues')?[3])}')"
+              },
+              "runAfter": {
+                "RequisitionSchedularVariables": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "UpdateRequisitionQueryWithValues": {
+              "type": "AppendToArrayVariable",
+              "inputs": {
+                "name": "listOfValues",
+                "value": "@replace(replace(body('GetRequisitionQuery')?['ServiceBody'],'??',formatDateTime(utcNow(),'yyyyMMddhhmmss')),'??FromDate??',formatDateTime(utcNow(),'yyyy-MM-dd'))"
+              },
+              "runAfter": {
+                "GetRequisitionQuery": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "CallTaleoService": {
+              "inputs": {
+                "body": {
+                  "ServiceBody": "@{variables('listOfValues')?[4]}",
+                  "ServiceContentType": "@body('GetRequisitionQuery')?['ServiceContentType']",
+                  "ServiceMIMEVersion": "@body('GetRequisitionQuery')?['ServiceMIMEVersion']",
+                  "ServiceMethod": "@body('GetRequisitionQuery')?['ServiceMethod']",
+                  "ServiceSOAPAction": "@body('GetRequisitionQuery')?['ServiceSOAPAction']",
+                  "ServiceURI": "@body('GetRequisitionQuery')?['ServiceURI']"
+                },
+                "host": {
+                  "triggerName": "manual",
+                  "workflow": {
+                    "id": "[concat(subscription().id, '/resourceGroups/', parameters('rsgname'),'/providers/Microsoft.Logic/workflows/',parameters('childLAName'))]"
+                  }
+                }
+              },
+              "runAfter": {
+                "UpdateRequisitionQueryWithValues": [
+                  "Succeeded"
+                ]
+              },
+              "trackedProperties": {
+                "messageId": "@formatDateTime(utcNow(),'yyyyMMddhhmmss')",
+                "queryToOurtalent": "@{action()['inputs']['body']['ServiceBody']}"
+              },
+              "type": "Workflow"
+            },
+            "SaveStatusForTaleoRequisitionServiceQuery": {
+              "type": "ApiConnection",
+              "inputs": {
+                "body": {
+                  "TaleoCorelationKey": "",
+                  "TaleoMessageKey": "@json(xml(replace(replace(replace(string(actionBody('CallTaleoService')),'IntegrationMessage','a:IntegrationMessage'),'xmlns=','xmlns:a='),'MessageKey','a:MessageKey')))['soap:Envelope']['soap:Body']['ns1:submitLargeDocumentResponse']['a:IntegrationMessage']['a:MessageKey']",
+                  "TaleoMessageStatus": "",
+                  "TaleoQueryEntity": "@variables('listOfValues')?[3]"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                  }
+                },
+                "method": "patch",
+                "path": "/Tables/@{encodeURIComponent('TaleoServiceCallStatus')}/entities(PartitionKey='@{encodeURIComponent(variables('listOfValues')?[2])}',RowKey='@{encodeURIComponent(variables('listOfValues')?[2])}')"
+              },
+              "runAfter": {
+                "CallTaleoService": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "parameters": {
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            }
+          },
+          "triggers": {
+            "Recurrence": {
+              "type": "Recurrence",
+              "recurrence": {
+                "frequency": "Day",
+                "interval": 1
+              }
+            }
+          },
+          "contentVersion": "1.0.0.0",
+          "outputs": {}
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "azuretables": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', parameters('hra_azuretables_Connection_Name'))]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('hra_azuretables_Connection_Name'))]",
+                "connectionName": "[parameters('hra_azuretables_Connection_Name')]"
+              }
+            }
+          }
+        }
+      },
+      "resources": [
+        {
+          "name": "[concat('Microsoft.Insights/service')]",
+          "type": "providers/diagnosticSettings",
+          "apiVersion": "2015-07-01",
+          "dependsOn": [
+            "[concat('Microsoft.Logic/workflows/', parameters('logicAppName'))]"
+          ],
+          "properties": {
+            "workspaceId": "[resourceId(parameters('sharedrsgname'),'Microsoft.OperationalInsights/workspaces', parameters('oms-Workspace-Name'))]",
+            "logs": [
+              {
+                "category": "WorkflowRuntime",
+                "enabled": true,
+                "retentionPolicy": {
+                  "days": 30,
+                  "enabled": true
+                }
+              }
+            ],
+            "metrics": [
+              {
+                "timeGrain": "AllMetrics",
+                "category": "AllMetrics",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": 30
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', parameters('hra_azuretables_Connection_Name'))]"
+      ]
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('hra_azuretables_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azuretables')]"
+        },
+        "displayName": "[parameters('hra_azuretables_Connection_Name_DisplayName')]",
+        "parameterValues": {
+          "storageaccount": "[parameters('azuretables_1_storageaccount')]",
+          "sharedkey": "[listKeys(resourceId(parameters('sharedrsgname'),'Microsoft.Storage/storageAccounts', parameters('azuretables_1_storageaccount')),providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
+
+============================================================================================================
+
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "nokia-ipaas-dev-we-lga-ot-p32-01"
+    },
+    "childLAName": {
+      "value": "nokia-ipaas-dev-we-lga-ot-p32-04"
+    },
+    "hra_azuretables_Connection_Name": {
+      "value": "nok-ipaas-dev-we-ot-p32-01-azuretable"
+    },
+    "hra_azuretables_Connection_Name_DisplayName": {
+      "value": "nok-ipaas-dev-we-ot-p32-01-azuretable"
+    },
+    "rsgname": {
+      "value": "ipaas-dev-we-ourtalent-p32-01"
+    },
+    "azuretables_1_storageaccount": {
+      "value": "ipaasdevwesharedsta01"
+    },
+    "sharedrsgname": {
+      "value": "ipaas-dev-we-shared-services-01"
+    },
+    "oms-Workspace-Name": {
+      "value": "nok-ipaas-dev-we-oms-01"
+    },
+    "logicAppState": {
+      "value": "Enabled"
+    }
+  }
+  }
