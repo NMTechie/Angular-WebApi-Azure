@@ -1,0 +1,9 @@
+ng new my-ap
+
+ng serve -o
+
+ng g c <<component name>>
+ng g c <<module name>>/<<component name>>
+
+ng g m <<module name>>
+
