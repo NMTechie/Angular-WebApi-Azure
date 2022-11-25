@@ -1,0 +1,15 @@
+<div>
+    -------This is the property and class binding example used for expression evaluation------ 
+    <ol>
+        <li> 
+            <input type="text" value="FirstTextBox" [id]="idPropIntsfile"/>
+            <input type="text" bind-value="valueInSecTextBox" id="{{idPropIntsfile}}"/>
+        </li>    
+        <li>
+            <input type="text" value="Ex for class bind" [id]="classFirstBindTextBoxId" [class]="classFirstBindTextBox"/>
+            <input type="text" value="Ex for class bind" [id]="classFirstBindTextBoxId" [class.text-conditional]="doApplytextconditionalClass"/>
+            <input type="text" value="Ex for apply multiple classes conditionally" [id]="classFirstBindTextBoxId" [ngClass]="objectToWrapMultileClassesThatGowithNgClass"/>
+        </li>    
+    </ol>     
+    -----------------------------------------------------------------------------
+</div>
