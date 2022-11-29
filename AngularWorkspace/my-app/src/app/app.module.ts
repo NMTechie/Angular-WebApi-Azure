@@ -10,6 +10,7 @@ import { PropclassbindComponent } from './propclassbind/propclassbind.component'
 import { EventBindingExpComponent } from './event-binding-exp/event-binding-exp.component';
 import { TemplateRefVariablesComponent } from './template-ref-variables/template-ref-variables.component';
 import { TwowaybindingexComponent } from './twowaybindingex/twowaybindingex.component';
+import { ChildCompOfAppCompComponent } from './child-comp-of-app-comp/child-comp-of-app-comp.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { TwowaybindingexComponent } from './twowaybindingex/twowaybindingex.comp
     PropclassbindComponent,
     EventBindingExpComponent,
     TemplateRefVariablesComponent,
-    TwowaybindingexComponent
+    TwowaybindingexComponent,
+    ChildCompOfAppCompComponent
   ],
   imports: [
     BrowserModule,

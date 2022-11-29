@@ -8,3 +8,5 @@
 <app-event-binding-exp></app-event-binding-exp>
 <app-template-ref-variables></app-template-ref-variables>
 <app-twowaybindingex></app-twowaybindingex>
+<label>{{holderOfChildEventData}}</label>
+<app-child-comp-of-app-comp [dataFromParentComp]="parentData" (eventFromChildComp)="handleChildEvent($event)"></app-child-comp-of-app-comp>

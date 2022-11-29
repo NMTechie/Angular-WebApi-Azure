@@ -1,0 +1,9 @@
+<div>
+    -------This is the inter component communication example -------------------------- 
+    <ol>
+        <li><input type="text" value="{{parentData}}"/></li>
+        <li><input type="text" value="type to send to parent" #childCompTextBox/><button (click)="handleClick(childCompTextBox.value)"> Click to Send data to Parent Component </button></li>
+    </ol>     
+    -----------------------------------------------------------------------------
+</div>
+
